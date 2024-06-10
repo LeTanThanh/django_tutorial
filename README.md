@@ -1,5 +1,7 @@
 # Django Tutorial 01
 
+- Reference: https://docs.djangoproject.com/en/5.0/intro/tutorial01/
+
 ## Check django version
 
 ```bash
@@ -22,4 +24,16 @@ django-admin startproject django_tutorial_01
 
 ```bash
 pip3 install -r requirements.txt
+```
+
+## Run server
+
+```bash
+python3 manage.py runserver
+```
+
+- Open
+
+```
+localhost:8000
 ```
