@@ -1,4 +1,4 @@
-# Django Tutorial 01
+# Django Tutorial
 
 - Reference: https://docs.djangoproject.com/en/5.0/intro/tutorial01/
 
@@ -17,7 +17,7 @@ pip3 install django==5.0.6
 ## Start project
 
 ```bash
-django-admin startproject django_tutorial_01
+django-admin startproject django_tutorial
 ```
 
 ## Install requirementx.txt
