@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.http import Http404
-
+from django.shortcuts import get_object_or_404
 from .models import Question
 
 def index(request):
@@ -15,10 +15,11 @@ def index(request):
 	return HttpResponse(response_content)
 
 def detail(request, question_id):
-	try:
-		question = Question.objects.get(id=question_id)
-	except Question.DoesNotExist:
-		raise Http404("Question not found.")
+	# try:
+	# 	question = Question.objects.get(id=question_id)
+	# except Question.DoesNotExist:
+	# 	raise Http404("Question not found.")
+	question = get_object_or_404(Question, id=question_id)
 
 	template = loader.get_template("pools/detail.html")
 	context = {
