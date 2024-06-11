@@ -1,0 +1,13 @@
+{% if questions %}
+  <ul>
+    {% for question in questions %}
+      <li>
+        <a href="/pools/{{question.id}}">
+          {{ question.question_text }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No pools are available.</p>
+{% endif %}
