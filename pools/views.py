@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from django.http import Http404
 from django.http import HttpResponseRedirect
@@ -6,41 +7,24 @@ from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse
 from django.db.models import F
+from django.views import generic
 
 from .models import Question
 
-def index(request):
-	template = loader.get_template("pools/index.html")
+class IndexView(generic.ListView):
+	def get_queryset(self):
+		return Question.objects.order_by("-pub_date")[:5]
 
-	questions = Question.objects.order_by("-pub_date")[:5]
-	context = {
-		"questions": questions
-	}
-	response_content = template.render(context=context, request=request)
-	return HttpResponse(response_content)
 
-def detail(request, question_id):
-	# try:
-	# 	question = Question.objects.get(id=question_id)
-	# except Question.DoesNotExist:
-	# 	raise Http404("Question not found.")
-	question = get_object_or_404(Question, id=question_id)
+class DetailView(generic.DetailView):
+    model = Question
 
-	template = loader.get_template("pools/detail.html")
-	context = {
-		"question": question
-	}
-	response_content = template.render(context=context, request=request)
-	return HttpResponse(response_content)
 
-def results(request, question_id):
-	question = get_object_or_404(Question, id=question_id)
-	return render(
-     	request=request,
-     	template_name="pools/results.html",
-      	context={
-			"question": question
-		})
+class ResultView(generic.DetailView):
+    model = Question
+    template_name = "pools/question_result.html"
+
+
 
 def vote(request, question_id):
 	question = get_object_or_404(Question, id=question_id)
@@ -59,4 +43,4 @@ def vote(request, question_id):
 		selected_choice.votes = F("votes") + 1
 		selected_choice.save()
 
-		return HttpResponseRedirect(reverse("pools:question_results", args=(question.id,)))
+		return HttpResponseRedirect(reverse("pools:question_result", args=(question.id,)))
